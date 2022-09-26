@@ -38,7 +38,11 @@ export const login = async (req, res, next) => {
 
         const { password, isAdmin, ...publicInfo } = user._doc;
 
-        res.status(200).json({ ...publicInfo });
+        res.cookie("access_token", token, {
+            httpOnly: true
+        })
+        .status(200)
+        .json({ ...publicInfo });
     } catch (err) {
         next(err)
     }

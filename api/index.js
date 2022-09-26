@@ -1,9 +1,10 @@
 import express from 'express';
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import mongoose from 'mongoose';
-import authRoute from "./routes/auth.js"
-import usersRoute from "./routes/users.js"
-import itemsRoute from "./routes/items.js"
+import authRoute from "./routes/auth.js";
+import usersRoute from "./routes/users.js";
+import itemsRoute from "./routes/items.js";
 
 const app = express();
 dotenv.config();
@@ -22,15 +23,16 @@ mongoose.connection.on('disconnected', () => {
 })
 
 // middlewares
-app.use(express.json())
+app.use(cookieParser());
+app.use(express.json());
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/items", itemsRoute);
 
 app.use((err, req, res, next) => {
-    const errorStatus = err.status || 500
-    const errorMessage = err.message || "Something went wrong. Please refresh the page."
+    const errorStatus = err.status || 500;
+    const errorMessage = err.message || "Something went wrong. Please refresh the page.";
     return res.status(errorStatus).json({
         success: false,
         status: errorStatus,
@@ -40,6 +42,6 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(5001, () => {
-    connect()
-    console.log('connected to backend.')
+    connect();
+    console.log('connected to backend.');
 })
