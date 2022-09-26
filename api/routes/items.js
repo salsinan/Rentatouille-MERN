@@ -3,7 +3,6 @@ import Item from "../models/Item.js";
 
 const router = express.Router();
 
-
 // CREATE
 router.post('/', async (req, res) => {
     const newItem = new Item(req.body);
@@ -11,7 +10,7 @@ router.post('/', async (req, res) => {
         const savedItem = await newItem.save();
         res.status(200).json(savedItem)
     } catch (err) {
-        res.status(500).json(err)
+        next(err)
     }
 })
 // UPDATE
@@ -24,7 +23,7 @@ router.put('/:id', async (req, res) => {
         );
         res.status(200).json(updatedItem);
     } catch (err) {
-        res.status(500).json(err)
+        next(err)
     }
 })
 // DELETE
@@ -34,7 +33,7 @@ router.delete('/:id', async (req, res) => {
         await Item.findByIdAndDelete(id);
         res.status(200).json(`Your item was deleted successfully`);
     } catch (err) {
-        res.status(500).json(err)
+        next(err)
     }
 })
 // GET
@@ -43,7 +42,7 @@ router.get('/:id', async (req, res) => {
         const item = await Item.findById(req.params.id)
         res.status(200).json(item);
     } catch (err) {
-        res.status(500).json(err)
+        next(err)
     }
 })
 // GET ALL
@@ -52,7 +51,7 @@ router.get('/', async (req, res) => {
         const items = await Item.find()
         res.status(200).json(items);
     } catch (err) {
-        res.status(500).json(err)
+        next(err)
     }
 })
 
