@@ -32,6 +32,13 @@ const ItemSchema = new mongoose.Schema({
         type: Number,
         min: 0,
         max: 5
+    },
+    unavailableDates: {
+        type: [Date]
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 })
 
